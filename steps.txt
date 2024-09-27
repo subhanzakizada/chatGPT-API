@@ -1,0 +1,13 @@
+1. Download Maven by brew install maven
+2. Run "mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=webscraper -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+" command to generate a new Maven project
+3. Add the Maven dependency to your pom.xml
+4. Run "mvn clean install" to build the Maven project, (This will download Jsoup and compile your project)
+4. To compile the code " mvn clean compile "
+5. To run the code "  mvn exec:java -Dexec.mainClass="com.mycompany.app.WebScraper"  "
+6. Download Tesseract by brew install tesseract
+7. Add the Tesseract dependency to your pom.xml
+8. Compile and run the code and Maven will automatically download and install the required libraries when you build the project
+
+
+

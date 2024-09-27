@@ -1,0 +1,65 @@
+            // Extract all images from the page
+            // Elements images = bodyHtml.select("img[src]");
+            // Elements images = doc.select("img[src]");
+
+
+            // Initialize Tesseract OCR engine
+            // ITesseract tesseract = new Tesseract();
+
+            // int i = 0;
+            // // Process each image
+            // for (Element img : images) {
+            //     String imgUrl = img.attr("src");
+
+
+            //     // Print image URL for debugging
+            //     System.out.println("Image found: " + imgUrl);
+                
+            //     // Check if it's a Data URL and decode it
+            //     if (imgUrl.startsWith("data:")) {
+
+                    
+            //         // Extract Base64 part
+            //         String base64Data = imgUrl.split(",")[1];  // Get the data part after the comma
+            //         byte[] imageBytes = Base64.getDecoder().decode(base64Data); // Decode Base64 to byte array
+
+                    // Consoling the array (just testing purposes)
+                    // for (byte b : imageBytes) {
+                    //     System.out.print(b + " ");
+                    // }
+
+
+                    // // Create BufferedImage from byte array
+                    // BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
+                    
+                    // Save the image to a local file
+                    // File imageFile = new File("downloaded_image" + i + ".png");
+                    // ImageIO.write(bufferedImage, "png", imageFile);
+                // }
+
+                // else {
+                //     // If the image URL is relative, resolve it to an absolute URL
+                //     if (!imgUrl.startsWith("http")) {
+                //         imgUrl = new URL(new URL(url), imgUrl).toString();
+                //     }
+
+                //     // Download the image
+                //     BufferedImage bufferedImage = ImageIO.read(new URL(imgUrl));
+
+                //     // Save the image to a local file (optional)
+                //     File imageFile = new File("downloaded_image" + i +".png");
+                //     ImageIO.write(bufferedImage, "png", imageFile);
+                // }
+                // i++;
+
+                
+                // Perform OCR on the image
+                // try {
+                //     String result = tesseract.doOCR(imageFile);
+                //     System.out.println("Extracted Text from Image: \n" + result);
+                // } catch (TesseractException e) {
+                //     System.err.println("Error during OCR: " + e.getMessage());
+                // }
+            // }
+            
+            // System.out.println(bodyHtml);
