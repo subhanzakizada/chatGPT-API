@@ -4,11 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-// import org.jsoup.select.Elements;
-// import org.jsoup.nodes.Element;
-// import net.sourceforge.tess4j.ITesseract;
-// import net.sourceforge.tess4j.Tesseract;
-// import net.sourceforge.tess4j.TesseractException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -16,19 +11,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.MediaType;
 
-// import java.io.File;
-import java.io.IOException;
-// import java.net.URL;
-// import javax.imageio.ImageIO;
-// import java.awt.image.BufferedImage;
-
-// for decoding Base64 images
-// import java.util.Base64;
-// import java.io.ByteArrayInputStream;
-
-
 import io.github.cdimascio.dotenv.Dotenv;
-
+import java.io.IOException;
 
 public class WebScraper {
 
@@ -37,18 +21,24 @@ public class WebScraper {
     
     // URL for OpenAI's GPT-4
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
-
     
+    // Static OkHttpClient instance
+    private static final OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .build();
+
     public static void main(String[] args) {
         // URL of the website to scrape
-        String url = "https://www.worldhealthsummit.org/"; // text based
+        String url = "https://www.worldhealthsummit.org/"; // Example for text-based website
         // String url = "https://healthandwellnessexpo.com/";    // image based
-
+        
         try {
             // Connect to the website and get the HTML document
             Document doc = Jsoup.connect(url).get();
 
-            // Remove script, style, and noscript elements so we don't use a lot of API credits
+            // Remove script, style, and noscript elements to avoid unnecessary API credit usage
             doc.select("script, style, noscript").remove();
             
             // Get the body HTML without those elements
@@ -76,8 +66,6 @@ public class WebScraper {
                 System.out.println("No valid response from ChatGPT.");
             }
 
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,13 +73,6 @@ public class WebScraper {
 
     // Function to send a prompt to ChatGPT and get the response
     public static String sendPromptToChatGPT(String prompt) {
-        // Create OkHttpClient instance with timeouts
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
-                .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                .build();
-
         // Build the request body for OpenAI API
         JSONObject requestBody = new JSONObject();
         requestBody.put("model", "gpt-4");
@@ -139,7 +120,6 @@ public class WebScraper {
         return null;
     }
 
-
     // Function to create the first initialization prompt with an example
     public static String initializeFirstPrompt() {
         String exampleHtml = "<html><head><title>World Health Summit 2024</title></head><body>" +
@@ -171,7 +151,6 @@ public class WebScraper {
         return prompt;
     }
 
-
     // Function to create the second prompt for HTML scraping
     public static String createSecondPrompt(String htmlContent) {
         String prompt = "Here is the HTML content of a webpage. Please extract the event information and return it in the following JSON format:\n\n" +
@@ -181,4 +160,3 @@ public class WebScraper {
         return prompt;
     }
 }
-
