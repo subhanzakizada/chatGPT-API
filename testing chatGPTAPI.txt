@@ -1,0 +1,62 @@
+package com.mycompany.app;
+
+import okhttp3.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import io.github.cdimascio.dotenv.Dotenv;
+
+import java.io.IOException;
+
+public class ChatGPTTest {
+
+    // Load the API key from the .env file
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final String API_KEY = dotenv.get("OPENAI_API_KEY");
+    
+    // URL for OpenAI's GPT-4 (or GPT-3.5 if you prefer)
+    private static final String API_URL = "https://api.openai.com/v1/chat/completions";
+
+    public static void main(String[] args) {
+    
+        // Test message to send to ChatGPT
+        String testMessage = "Can you confirm that my API key works?";
+
+        // Build the request body for OpenAI API
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("model", "gpt-4");  // Use "gpt-3.5-turbo" if needed
+        JSONArray messagesArray = new JSONArray();
+        messagesArray.put(new JSONObject().put("role", "system").put("content", "You are a helpful assistant."));
+        messagesArray.put(new JSONObject().put("role", "user").put("content", testMessage));
+        requestBody.put("messages", messagesArray);
+
+        // Create OkHttpClient instance
+        OkHttpClient client = new OkHttpClient();
+
+        // Build the request
+        RequestBody body = RequestBody.create(requestBody.toString(), MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(API_URL)
+                .post(body)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .build();
+
+        // Make the request and handle the response
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    // Print out the response body
+                    String responseBody = response.body().string();
+                    System.out.println("Response: " + responseBody);
+                } else {
+                    System.out.println("Error: " + response.code() + " " + response.message());
+                }
+            }
+        });
+    }
+}
