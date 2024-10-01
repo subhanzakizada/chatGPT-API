@@ -154,8 +154,11 @@ public class WebScraper {
                 "<a href='https://twitter.com/worldhealthsmt'>Twitter</a>" +
                 "</div></body></html>";
 
-        String prompt = "Hello! I need you to extract specific event data from the HTML of websites and provide the data in a structured JSON format. " +
-                "Here's an example of what we're looking for:\n\n" +
+        String prompt = "You are an expert web scraper specializing in extracting event-related information from HTML content. " +
+                "Your job is to analyze the provided HTML and return structured event data such as event name, date, description, " +
+                "social media links, and venue information in JSON format. If any of the required data is not available in the HTML, " +
+                "set that field to `null`.\n\n" +  // Descriptive system message
+                "Here is an example of what we're looking for:\n\n" +
                 "Example HTML:\n" + exampleHtml + "\n\n" +
                 "Desired Output Format in JSON:\n" +
                 "{ \"event\": { \"name\": \"World Health Summit 2024\", \"logo\": \"https://www.worldhealthsummit.org/fileadmin/headerimages/WHS_logo.svg\", " +
@@ -168,7 +171,8 @@ public class WebScraper {
         return prompt;
     }
 
-    // Function to create the second prompt for future scraping based on the actual HTML
+
+    // Function to create the second prompt for HTML scraping
     public static String createSecondPrompt(String htmlContent) {
         String prompt = "Here is the HTML content of a webpage. Please extract the event information and return it in the following JSON format:\n\n" +
                 "{ \"event\": { \"name\": \"\", \"logo\": \"\", \"website\": \"\", \"description\": \"\", \"start_date\": \"\", \"end_date\": \"\", " +
@@ -177,3 +181,4 @@ public class WebScraper {
         return prompt;
     }
 }
+
